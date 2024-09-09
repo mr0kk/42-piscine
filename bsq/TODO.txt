@@ -1,0 +1,6 @@
+read file
+validate map
+algorithm
+algorithm implementation
+makefile
+git coooperation
