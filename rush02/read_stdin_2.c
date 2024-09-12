@@ -1,45 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input_vali.c                                       :+:      :+:    :+:   */
+/*   read_stdin_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rmrok <rmrok@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/07 17:22:02 by gdu               #+#    #+#             */
-/*   Updated: 2024/09/08 23:31:51 by rmrok            ###   ########.fr       */
+/*   Created: 2024/09/11 19:47:16 by mjanowsk          #+#    #+#             */
+/*   Updated: 2024/09/11 22:06:42 by rmrok            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include "prototypes.h"
 
-int	leng(char *str)
-{
-	int	len;
-
-	len = 0;
-	while (str[len])
-		len++;
-	return (len);
-}
-
-int	check_key(char *str)
+void	copy_buffer(char *src, char *dst, int len)
 {
 	int	i;
 
 	i = 0;
-	if (leng(str) > 39)
+	while (i < len)
 	{
-		write(1, "Error\n", 6);
-		return (0);
-	}
-	while (str[i])
-	{
-		if (!(str[i] >= 48 && str[i] <= 57))
-		{
-			write(1, "Error\n", 6);
-			return (0);
-		}
+		dst[i] = src[i];
 		i++;
 	}
-	return (1);
+}
+
+char	*double_buffer(char *raw_map, int *capacity, int total_bytes)
+{
+	char	*new_map;
+
+	*capacity *= 2;
+	new_map = (char *)malloc(*capacity);
+	if (!new_map)
+	{
+		free(raw_map);
+		return (NULL);
+	}
+	copy_buffer(raw_map, new_map, total_bytes);
+	free(raw_map);
+	return (new_map);
 }
